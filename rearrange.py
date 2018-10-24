@@ -3,8 +3,8 @@ import sys
 
 def main():
     args = sys.argv[1:]
-    randomIndex = random.randint(0, len(args) - 1)
-    print(args[randomIndex])
+    randargs = random.sample(args, len(args))
+    print(" ".join(randargs))
 
 if __name__ == '__main__':
     main()

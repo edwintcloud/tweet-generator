@@ -35,7 +35,6 @@ def histogram(source_text):
 
         # remove Roman Numerals, Initials, Abbreviations, and single letters that aren't words
         alphabet = [i+'.' for i in string.ascii_uppercase]
-        print(alphabet)
         single_letter_words = ['a', 'i']
         abbreviations3 = ['st.', 'dr.', 'mr.']
         abbreviations4 = ['mrs.', 'sq.,', 'esq.']

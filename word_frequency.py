@@ -38,9 +38,11 @@ def histogram(source_text):
         single_letter_words = ['a', 'i']
         abbreviations3 = ['st.', 'dr.', 'mr.']
         abbreviations4 = ['mrs.', 'sq.,', 'esq.']
-        sample[:] = [i for i in sample if i[-2:] not in alphabet and i[-3:].lower() not in abbreviations3
+        sample[:] = [i for i in sample if i[-2:] not in alphabet and
+                     i[-3:].lower() not in abbreviations3
                      and i[-4:].lower() not in abbreviations4]
-        sample[:] = [i for i in sample if not (len(i) == 1 and i.lower() not in single_letter_words)]
+        sample[:] = [i for i in sample if not (len(i) == 1 and i.lower()
+                     not in single_letter_words)]
 
         # remove punctuation except ' and - and make all lowercase
         sample[:] = [i.translate(t_table).lower() for i in sample]
@@ -55,7 +57,8 @@ def histogram(source_text):
     # print 10 most common words
     print("\nThe ten most common words are:\n")
     for i in hg.most_common(10):
-        print("   %s%s%s appearing %s%s%s times." % (color.GREEN, '{:<10}'.format(i[0]), color.END, color.RED, i[1], color.END))
+        print("   %s%s%s appearing %s%s%s times." % (color.GREEN, '{:<10}'.format(i[0]),
+              color.END, color.RED, i[1], color.END))
 
     # return histogram
     return hg
@@ -68,6 +71,7 @@ def unique_words(histogram):
 def frequency(word, histogram):
     return 0 if histogram.get(word) is None else histogram.get(word)
 
+
 def write_to_file(histogram):
     with open('histogram.txt', 'w+') as file:
         for i in histogram.most_common():
@@ -76,8 +80,10 @@ def write_to_file(histogram):
 
 def main(source_text, word):
     result = histogram(source_text)
-    print("\nThere are %s%s%s unique words in this source." % (color.CYAN, unique_words(result), color.END))
-    print("\nThe word %s%s%s appears exactly %s%s%s time(s)." % (color.GREEN, word, color.END, color.RED, frequency(word, result), color.END))
+    print("\nThere are %s%s%s unique words in this source." % (color.CYAN,
+          unique_words(result), color.END))
+    print("\nThe word %s%s%s appears exactly %s%s%s time(s)." % (color.GREEN,
+          word, color.END, color.RED, frequency(word, result), color.END))
     return result
 
 

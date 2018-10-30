@@ -54,6 +54,9 @@ def histogram(source_text):
     # create our histogram
     hg = collections.Counter(sample)
 
+    # print total number of words in source
+    print("\nThere are %s%s%s words in this source." % (color.PURPLE, len(sample), color.END))
+
     # print 10 most common words
     print("\nThe ten most common words are:\n")
     for i in hg.most_common(10):

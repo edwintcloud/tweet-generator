@@ -52,32 +52,31 @@ def histogram(source_text):
         sample[:] = [i.lstrip("'").rstrip("'") for i in sample]
 
     # create our histogram
-    hg = {sample[i]: 0 for i in range(len(sample)-1)}
-    for i in sample:
-        hg[i] += 1
-    hg = sorted(hg.items(), key=lambda kv: kv[1], reverse=True)
+    hg = collections.Counter(sample)
 
     # print total number of words in source
     print("\nThere are %s%s%s words in this source." % (color.PURPLE, len(sample), color.END))
 
     # print 10 most common words
     print("\nThe ten most common words are:\n")
-    for i in range(10 if len(hg) >= 10 else len(hg)):
-        print("   %s%s%s appearing %s%s%s times." % (color.GREEN, '{:<10}'.format(hg[i][1]),
-              color.END, color.RED, hg[i][0], color.END))
+    for i in hg.most_common(10):
+        print("   %s%s%s appearing %s%s%s times." % (color.GREEN, '{:<10}'.format(i[0]),
+              color.END, color.RED, i[1], color.END))
 
-    return dict(hg)
+    # return histogram
+    return hg
 
 
 def unique_words(histogram):
     '''Returns number of unique words in histogram'''
-    return len(histogram)
+
+    return len(list(histogram))
 
 
 def frequency(word, histogram):
     '''Returns histogram value for specified word or 0 if word not found'''
 
-    return 0 if word not in histogram else histogram[word]
+    return 0 if histogram.get(word) is None else histogram.get(word)
 
 
 def write_to_file(histogram):
@@ -85,8 +84,8 @@ def write_to_file(histogram):
 
     # open the file for writing or create a new one
     with open('histogram.txt', 'w+') as file:
-        for i in histogram:
-            file.write("%s%s\n" % ('{:<40}'.format(i), histogram[i]))
+        for i in histogram.most_common():
+            file.write("%s%s\n" % ('{:<40}'.format(i[0]), i[1]))
 
 
 def main(source_text, word):
@@ -95,7 +94,7 @@ def main(source_text, word):
     # generate histogram
     result = histogram(source_text)
 
-    # print result
+    # print results
     print("\nThere are %s%s%s unique words in this source." % (color.CYAN,
           unique_words(result), color.END))
     print("\nThe word %s%s%s appears exactly %s%s%s time(s)." % (color.GREEN,
@@ -117,7 +116,7 @@ if __name__ == '__main__':
     print("\n%sFinished in %s seconds%s\n" % (color.BLUE, "{0:.2f}"
           .format((time.time()-start_time)), color.END))
 
-    # # Ask user to save result to a file
+    # Ask user to save result to a file
     to_file = input("Would you like to save the sorted histogram to a file? (y/n): ")
 
     # If user entered 'y' then save the file

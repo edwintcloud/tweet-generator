@@ -1,7 +1,4 @@
-import sys
-import collections
-import string
-import time
+import sys, string, time
 
 
 class color:
@@ -17,48 +14,62 @@ class color:
     END = '\033[0m'
 
 
-def histogram(source_text):
-    '''Generates histogram from file and returns result'''
+def get_histogram(words):
+    '''Generates histogram from word list'''
 
-    # translation table we will use to remove punctuation and numbers
-    t_table = str.maketrans('', '', '''!"#$%&()*+,./:;<=>?@[\]^_`{|}~`1234567890''')
+    # create dictionary of unique words
+    unique_words = {word: 0 for word in words}
 
-    # open the file safely
-    with open(source_text) as words:
-        sample = words.read().split()
+    # count number of each word and update dictionary value
+    for word in words:
+        unique_words[word] += 1
 
-        # trim any whitespaces
-        sample[:] = [i.strip(' ') for i in sample]
-
-        # split dashed words into seperate words
-        sample[:] = [i for e in sample for i in e.split('--')]
-
-        # remove Roman Numerals, Initials, Abbreviations, and single
-        # letters that aren't words - wow this is gonna be ugly
-        alphabet = [i+'.' for i in string.ascii_uppercase]
-        single_letter_words = ['a', 'i']
-        abbreviations3 = ['st.', 'dr.', 'mr.']
-        abbreviations4 = ['mrs.', 'sq.,', 'esq.']
-        sample[:] = [i for i in sample if i[-2:] not in alphabet and
-                     i[-3:].lower() not in abbreviations3
-                     and i[-4:].lower() not in abbreviations4
-                     and not (len(i) == 1 and i.lower() not in
-                     single_letter_words)]
-
-        # remove numbers and punctuation except ' and - and make all lowercase
-        sample[:] = [i.translate(t_table).lower() for i in sample]
-
-        # trim trailing and leading puncuation
-        sample[:] = [i.lstrip("'").rstrip("'") for i in sample]
-
-    # create our histogram
-    hg = {i: 0 for i in sample}
-    for i in sample:
-        hg[i] += 1
-    hg = sorted(hg.items(), key=lambda i: i[1], reverse=True)
+    # sort dictionary in a list of tuples in decending order
+    histogram = sorted(unique_words.items(), key=lambda i: i[1], reverse=True)
 
     # return histogram
-    return dict(hg)
+    return histogram
+
+
+def get_words(file_name):
+    '''Opens file and returns list of words in file'''
+
+    # open the file safely
+    with open(file_name) as file:
+        words = file.read().split()
+
+    # return the file as a list of words
+    return words
+
+
+def normalize_words(words):
+    '''Normalizes word list into actual words'''
+
+    # translation table we will use to remove punctuation and numbers
+    translation_table = str.maketrans(
+        '', '', '''!"#$%&()*+,./:;<=>?@[\]^_`{|}~`1234567890''')
+
+    # split dashed words into seperate words and remove all whitespace
+    words[:] = [i.replace(' ', '') for e in words for i in e.split('--')]
+
+    # remove Roman Numerals, Initials, Abbreviations, and single
+    # letters that aren't words - wow this is gonna be ugly
+    alphabet = [i + '.' for i in string.ascii_uppercase]
+    single_letter_words = ['a', 'i']
+    abbreviations3 = ['st.', 'dr.', 'mr.']
+    abbreviations4 = ['mrs.', 'sq.,', 'esq.']
+    words[:] = [i for i in words if i[-2:] not in alphabet and
+                i[-3:].lower() not in abbreviations3 and
+                i[-4:].lower() not in abbreviations4 and
+                not (len(i) == 1 and i.lower() not in
+                         single_letter_words)]
+
+    # remove numbers and punctuation and make all lowercase
+    words[:] = [i.translate(translation_table).lower().lstrip(
+        "'").rstrip("'") for i in words]
+
+    # return normalized word list
+    return words
 
 
 def unique_words(histogram):
@@ -66,10 +77,15 @@ def unique_words(histogram):
     return len(histogram)
 
 
+def total_words(histogram):
+    '''Returns total number of words in histogram'''
+    return sum(i[1] for i in histogram)
+
+
 def frequency(word, histogram):
     '''Returns histogram value for specified word or 0 if word not found'''
 
-    return 0 if word not in histogram else histogram[word]
+    return dict(histogram).get(word, 0)
 
 
 def write_to_file(histogram):
@@ -78,34 +94,23 @@ def write_to_file(histogram):
     # open the file for writing or create a new one
     with open('histogram.txt', 'w+') as file:
         for i in histogram:
-            file.write("%s%s\n" % ('{:<40}'.format(i), histogram[i]))
+            file.write("%s%s\n" % ('{:<40}'.format(i[0]), i[1]))
 
 
-def main(source_text, word):
+def main(file_name):
     '''Main Entry point for program'''
 
-    # generate histogram
-    hg = histogram(source_text)
+    # get list of words in soure file
+    words = get_words(file_name)
 
-    # print total number of words in source
-    print("\nThere are %s%s%s words in this source." % (color.PURPLE,
-          sum(hg.values()), color.END))
+    # normalize list of words into actual words
+    words[:] = normalize_words(words)
 
-    # print 10 most common words
-    most_common = [(hg[i], i) for i in list(hg)[:10]]
-    print("\nThe ten most common words are:\n")
-    for i in range(len(most_common)):
-        print("   %s%s%s appearing %s%s%s times." % (color.GREEN, '{:<10}'.format(most_common[i][1]),
-              color.END, color.RED, most_common[i][0], color.END))
+    # get histogram from list of words
+    histogram = get_histogram(words)
 
-    # print result
-    print("\nThere are %s%s%s unique words in this source." % (color.CYAN,
-          unique_words(hg), color.END))
-    print("\nThe word %s%s%s appears exactly %s%s%s time(s)." % (color.GREEN,
-          word, color.END, color.RED, frequency(word, hg), color.END))
-
-    # return the results
-    return hg
+    # return histogram
+    return histogram
 
 
 if __name__ == '__main__':
@@ -114,15 +119,36 @@ if __name__ == '__main__':
     start_time = time.time()
 
     # run our program which requires a file name and word argument
-    hg = main(sys.argv[1], sys.argv[2])
+    histogram = main(sys.argv[1])
+
+    # print total number of words in source
+    print("\nThere are %s%s%s words in this source." %
+          (color.PURPLE, total_words(histogram), color.END))
+
+    # get 10 most common words
+    most_common_words = histogram[:10]
+
+    # print 10 most common words
+    print("\nThe ten most common words are:\n")
+    for word in most_common_words:
+        print("   %s%s%s appearing %s%s%s times." % (color.GREEN, '{:<10}'.format(word[0]),
+                                                     color.END, color.RED, word[1], color.END))
+
+    # print number of unique words
+    print("\nThere are %s%s%s unique words in this source." % (color.CYAN,
+                                                               unique_words(histogram), color.END))
+    # print number of times given word appears in source
+    print("\nThe word %s%s%s appears exactly %s%s%s time(s)." % (color.GREEN,
+                                                                 sys.argv[2], color.END, color.RED, frequency(sys.argv[2], histogram), color.END))
 
     # print the time elapsed
     print("\n%sFinished in %s seconds%s\n" % (color.BLUE, "{0:.2f}"
-          .format((time.time()-start_time)), color.END))
+                                              .format((time.time() - start_time)), color.END))
 
     # # Ask user to save result to a file
-    to_file = input("Would you like to save the sorted histogram to a file? (y/n): ")
+    to_file = input(
+        "Would you like to save the sorted histogram to a file? (y/n): ")
 
     # If user entered 'y' then save the file
     if to_file == 'y':
-        write_to_file(hg)
+        write_to_file(histogram)

@@ -5,10 +5,10 @@ import word_frequency as wf
 def main(file_name, num_of_words):
 
     # get histogram from file using our word_frequency import
-    hg = wf.histogram(file_name)
+    hg = wf.main(file_name)
 
     # get our total number of words in source
-    total_words = sum(hg.values())
+    total_words = sum(i[1] for i in hg)
 
     # create empty list to hold our random words
     random_words = []
@@ -16,11 +16,11 @@ def main(file_name, num_of_words):
     # do random weighted generation until we have num_of_words words
     while len(random_words) < int(num_of_words):
 
-        # pick a random word
-        random_word = random.choice(list(hg))
+        # pick a random index
+        random_index = random.randrange(len(hg))
 
         # generate probability percentage based on word frequency
-        word_probability = hg[random_word] / total_words
+        word_probability = hg[random_index][1] / total_words
 
         # generate random probability percentage based on total words in source
         random_probability = random.random() * total_words
@@ -28,7 +28,7 @@ def main(file_name, num_of_words):
         # if the word probability is greater than the random probability,
         # add the word to random words list
         if word_probability > random_probability:
-            random_words.append(random_word)
+            random_words.append(hg[random_index])
 
     print(random_words)
 

@@ -20,23 +20,34 @@ def main(file_name, num_of_words):
     # return a random index from each random weighted pool
     return [i[random.randrange(len(i))] for i in random_weighted_pools]
 
+
 def chunks(l, n):
-    """Yield successive n-sized chunks from l."""
+    '''Yield successive n-sized chunks from l.'''
+
     for i in range(0, len(l), int(len(l)/n)):
         yield l[i:i + n]
 
+
 def random_words(chunk):
+    '''Iterable function that returns random words for a histogram chunk'''
+
     # create list of words from histogram chunk
     words = [i[0] for i in chunk]
+
      # create list of weights from histogram chunk
     weights = [i[1]/wf.total_words(chunk) for i in chunk]
+
     # generate random words based on weights
     random_words = []
     while len(random_words) < int(sys.argv[2]):
         random_index = random.randrange(len(words))
         if random.random() < weights[random_index]:
             random_words.append(words[random_index])
+    
+    # return random words list
     return random_words
+
+
 if __name__ == '__main__':
 
     # get random words

@@ -3,58 +3,63 @@ import word_frequency as wf
 from multiprocessing import Pool
 
 
-def main(file_name, num_of_words):
-    '''Main entry point for program'''
+def get_random_words(histogram, n):
+    '''Takes a histogram and generates n random words based on weights'''
 
-    # get histogram from file using our word_frequency import
-    histogram = wf.main(file_name)
+    # get total number of words in source
+    total_words = wf.total_words(histogram)
 
-    # shuffle histogram
-    histogram[:] = random.sample(histogram, len(histogram))
+    # create list of words
+    words = [entry[0] for entry in histogram]
 
-    # split the work up based on num of words
-    pool = Pool(processes=int(num_of_words))
-    res = pool.map_async(random_words, chunks(histogram, int(num_of_words)))
-    random_weighted_pools = res.get(timeout=1)
-
-    # return a random index from each random weighted pool
-    return [i[random.randrange(len(i))] for i in random_weighted_pools]
-
-
-def chunks(l, n):
-    '''Yield successive n-sized chunks from l.'''
-
-    for i in range(0, len(l), int(len(l)/n)):
-        yield l[i:i + n]
-
-
-def random_words(chunk):
-    '''Iterable function that returns random words for a histogram chunk'''
-
-    # create list of words from histogram chunk
-    words = [i[0] for i in chunk]
-
-     # create list of weights from histogram chunk
-    weights = [i[1]/wf.total_words(chunk) for i in chunk]
+    # create list of weights
+    weights = [entry[1]/total_words for entry in histogram]
 
     # generate random words based on weights
     random_words = []
-    while len(random_words) < int(sys.argv[2]):
+    while len(random_words) < int(n):
         random_index = random.randrange(len(words))
         if random.random() < weights[random_index]:
             random_words.append(words[random_index])
-    
-    # return random words list
+
+    # alternative implementation -- this is slower        
+    # random_words = []
+    # for _ in range(int(n)):
+    #     accumulator = 0
+    #     random_sum = random.randrange(total_words)
+    #     for i in range(len(words)):
+    #         accumulator += weights[i]
+    #         if accumulator > random_sum:
+    #             random_words.append(words[i])
+
+    # return random words
     return random_words
 
 
-if __name__ == '__main__':
+def main(file_name, num_of_words):
+    '''Prints results of get_random_words'''
+    # get histogram from file using our word_frequency import
+    histogram = wf.main(file_name)
 
     # get random words
-    random_words = main(sys.argv[1], sys.argv[2])
+    random_words = get_random_words(histogram, num_of_words)
+
+    # create histogram of random words results
+    random_words_histogram = wf.get_histogram(random_words)
 
     # Capitalize first word
     random_words[0] = random_words[0].capitalize()
 
     # print out a sentence of the random words
     print(' '.join(random_words)+'.')
+
+    # print out random words histogram results
+    for i in random_words_histogram:
+        print(i)
+
+
+if __name__ == '__main__':
+
+    # get random words and print results
+    main(sys.argv[1], sys.argv[2])
+

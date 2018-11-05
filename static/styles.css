@@ -15,7 +15,18 @@
   color: #DED4FC;
   background-color: hsla(200, 0%, 0%, .6);
   padding: 15px;
-  border-radius: 15px;
+	border-radius: 15px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
+#plato {
+	height: 100px;
+	background-color: rgba(222, 212, 252, 0.562);
+	border-radius: 50%;
+	margin-right: 5px;
 }
 
 .btn {
@@ -24,12 +35,12 @@
   font-size: 1.5em;
   color: aliceblue;
   border-radius: 15px;
-  background-color: #4886ED;
+  background-color: #006CF5;
   border: none;
 }
 
 .btn:hover {
-  background-color: rgba(37, 113, 235, 0.836);
+  background-color: rgb(18, 156, 236)
 }
 
 body {

@@ -1,0 +1,1 @@
+web: gunicorn server:app --workers=1 --access-logfile - --worker-class "egg:meinheld#gunicorn_worker"

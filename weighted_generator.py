@@ -50,12 +50,18 @@ def main(file_name, num_of_words):
     # Capitalize first word
     random_words[0] = random_words[0].capitalize()
 
+
+    # save sentence as a variable to return later
+    sentence = ' '.join(random_words)+'.'
     # print out a sentence of the random words
-    print(' '.join(random_words)+'.')
+    print(sentence)
 
     # print out random words histogram results
     for i in random_words_histogram:
         print(i)
+
+    # return sentence
+    return sentence
 
 
 if __name__ == '__main__':

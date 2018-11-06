@@ -8,7 +8,7 @@
 }
 
 .sentence {
-  font-size: 2.7rem;
+  font-size: 2em;
   margin-left: 15%;
   margin-right: 15%;
   text-align: center;
@@ -40,7 +40,19 @@
 }
 
 .btn:hover {
-  background-color: rgb(18, 156, 236)
+  background-color: rgb(18, 156, 236);
+}
+
+#message {
+	padding: 10px;
+}
+
+/* Media query to display properly on mobile devices */
+@media only screen and (max-width: 768px) {
+	.sentence {
+		flex-direction: column;
+		flex-shrink: 1;
+	}
 }
 
 body {

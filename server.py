@@ -1,6 +1,5 @@
 from flask import Flask, render_template, jsonify
-from random import randrange
-import weighted_generator
+from modules.app import random_sentence
 
 
 app = Flask(__name__)
@@ -8,10 +7,8 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def main_page():
-  random_sentence = weighted_generator.generate_sentence('the_republic.txt', randrange(11,19))
-  return  render_template('index.html', sentence = random_sentence)
+  return  render_template('index.html', sentence = random_sentence('the_republic'))
 
 @app.route('/new_sentence', methods=['GET'])
 def new_sentence():
-  random_sentence = weighted_generator.generate_sentence('the_republic.txt', randrange(11,19))
-  return jsonify(random_sentence)
+  return jsonify(random_sentence('the_republic'))

@@ -4,7 +4,7 @@ def get_words(file_name):
     '''Opens file and returns list of words in file'''
 
     # open the file safely
-    with open(file_name) as file:
+    with open('./modules/corpuses/' + file_name + '.txt') as file:
         words = file.read().split()
 
     # return the file as a list of words

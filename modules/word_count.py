@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from dictogram import Dictogram
-from listogram import Listogram
+from modules.dictogram import Dictogram
+from modules.listogram import Listogram
 
 def get_listogram(words):
     '''Generates Listogram from word list'''

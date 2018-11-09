@@ -38,10 +38,10 @@ if __name__ == '__main__':
     import sys
     from tokenize import get_words
     from cleanup import clean
-    from word_count import get_dictogram
+    from dictogram import Dictogram
     words = get_words(sys.argv[1])
     cleaned_words = clean(words)
-    listogram = get_dictogram(cleaned_words)
+    listogram = Dictogram(cleaned_words)
     random_weighted_words = get_random_words(listogram, sys.argv[2])
 
     # print random weighted words

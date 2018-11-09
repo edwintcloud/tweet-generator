@@ -2,8 +2,8 @@
 
 import random
 
-def get_random_words(gram, n):
-    '''Takes a histogram and generates n random words based on weights'''
+def get_random_word(gram):
+    '''Takes a histogram and generates a single random word based on weights'''
 
     # get type of gram (dictogram or listogram)
     histogram_type = str(type(gram).__name__ )
@@ -24,15 +24,15 @@ def get_random_words(gram, n):
     # create list of weights from counts
     weights = [count/total_words for count in counts]
 
-    # generate random words based on weights
-    random_words = []
-    while len(random_words) < int(n):
+    # generate a random word based on weights
+    random_word = ''
+    while random_word == '':
         random_index = random.randrange(len(words))
         if random.random() < weights[random_index]:
-            random_words.append(words[random_index])
+            random_word = words[random_index]
 
-    # return random words
-    return random_words
+    # return random word
+    return random_word
 
 if __name__ == '__main__':
     import sys
@@ -42,7 +42,7 @@ if __name__ == '__main__':
     words = get_words(sys.argv[1])
     cleaned_words = clean(words)
     listogram = Dictogram(cleaned_words)
-    random_weighted_words = get_random_words(listogram, sys.argv[2])
+    random_weighted_word = get_random_word(listogram)
 
-    # print random weighted words
-    print(random_weighted_words)
+    # print random weighted word
+    print(random_weighted_word)

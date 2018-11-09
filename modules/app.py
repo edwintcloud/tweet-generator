@@ -3,9 +3,10 @@
 from modules.tokenize import get_words
 from modules.cleanup import clean
 from modules.dictogram import Dictogram
-from modules.sample import get_random_words
+from modules.sample import get_random_word
 from modules.sentence import generate_sentence
 from random import randint
+
 
 def random_sentence(corpus, min_num_of_words=12, max_num_of_words=18):
     '''Generates random sentence of random length between min and max num of words'''
@@ -13,9 +14,11 @@ def random_sentence(corpus, min_num_of_words=12, max_num_of_words=18):
     words = get_words(corpus)
     cleaned_words = clean(words)
     listogram = Dictogram(cleaned_words)
-    random_weighted_words = get_random_words(listogram, num_of_words)
+    random_weighted_words = [get_random_word(listogram) for random_weighted_word
+                             in range(num_of_words)]
     sentence = generate_sentence(random_weighted_words)
     return sentence
+
 
 if __name__ == '__main__':
     import sys

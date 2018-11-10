@@ -8,101 +8,78 @@
 }
 
 .sentence {
-  font-size: 2em;
+  font-size: 40px;
   margin-left: 15%;
-  margin-right: 15%;
+	margin-right: 15%;
+	height: 50vh;
   text-align: center;
-  color: #DED4FC;
-  background-color: hsla(200, 0%, 0%, .6);
+  color: #910000;
+  background-color: #E9EFB9;
   padding: 15px;
 	border-radius: 15px;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-}
-
-#plato {
-	height: 100px;
-	background-color: rgba(222, 212, 252, 0.562);
-	border-radius: 50%;
-	margin-right: 5px;
+	box-shadow: 0px 0px 20px 8px rgb(236, 39, 39);
 }
 
 .btn {
   margin-top: 7vh;
   padding: 18px;
   font-size: 1.5em;
-  color: aliceblue;
+  color: #E6F3B3;
   border-radius: 15px;
-  background-color: #006CF5;
+  background-color: #007D00;
   border: none;
 }
 
 .btn:hover {
-  background-color: rgb(18, 156, 236);
+  background-color: #008D07;
 }
 
 #message {
 	padding: 10px;
 }
 
+.btn:focus {
+	outline: none;
+}
+
 /* Media query to display properly on mobile devices */
-@media only screen and (max-width: 768px) {
+@media (max-width: 768px) {
 	.sentence {
 		flex-direction: column;
-		flex-shrink: 1;
+		font-size: 25px;
 	}
 }
 
 body {
-  background:
-	radial-gradient(
-			at bottom right,
-			dodgerblue 0,
-			dodgerblue 1em,
-			lightskyblue 1em,
-			lightskyblue 2em,
-			deepskyblue 2em,
-			deepskyblue 3em,
-			gainsboro 3em,
-			gainsboro 4em,
-			lightsteelblue 4em,
-			lightsteelblue 5em,
-			deepskyblue 5em,
-			deepskyblue 6em,
-			lightskyblue 6em,
-			lightskyblue 7em,
-			transparent 7em,
-			transparent 8em
-		),
-		radial-gradient(
-			at top left,
-			transparent 0,
-			transparent 1em,
-			lightskyblue 1em,
-			lightskyblue 2em,
-			deepskyblue 2em,
-			deepskyblue 3em,
-			lightsteelblue 3em,
-			lightsteelblue 4em,
-			gainsboro 4em,
-			gainsboro 5em,
-			deepskyblue 5em,
-			deepskyblue 6em,
-			skyblue 6em,
-			skyblue 7em,
-			dodgerblue 7em,
-			dodgerblue 8em,
-			transparent 8em,
-			transparent 20em
-		),
-		radial-gradient(
-			circle at center bottom,
-			coral, darkslateblue
-		);
-	
-	background-blend-mode: overlay;
-	background-size:
-		8em 8em, 8em 8em, cover;
+  background-image:
+	repeating-linear-gradient(
+		90deg,
+		firebrick,
+		firebrick 20px,
+		beige 0,
+		beige 25px,
+		forestgreen 0,
+		forestgreen 35px,
+		gold 0,
+		gold 40px,
+		crimson 0,
+		crimson 60px
+	),
+	repeating-linear-gradient(
+		firebrick,
+		firebrick 20px,
+		beige 0,
+		beige 25px,
+		forestgreen 0,
+		forestgreen 35px,
+		gold 0,
+		gold 40px,
+		crimson 0,
+		crimson 60px
+	);
+background-blend-mode: multiply;
 }

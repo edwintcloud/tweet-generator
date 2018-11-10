@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from dictogram import Dictogram
+from modules.dictogram import Dictogram
 
 
 def generate_dictograms(words):
@@ -26,7 +26,7 @@ def random_walk(dict_of_dictograms):
     from random import choice
 
     # we will use our random weighted sample word generator file to help us
-    from sample import get_random_word
+    from modules.sample import get_random_word
 
     # first pick a random dictogram
     key = choice(list(dict_of_dictograms))
@@ -35,8 +35,8 @@ def random_walk(dict_of_dictograms):
     # now pick a random weighted word
     random_weighted_word = get_random_word(dictogram)
 
-    # return the word
-    return random_weighted_word
+    # return the words
+    return [key, random_weighted_word]
 
 
 if __name__ == '__main__':
@@ -46,7 +46,11 @@ if __name__ == '__main__':
     words = get_words(sys.argv[1])
     cleaned_words = clean(words)
     dictograms = generate_dictograms(cleaned_words)
-    random_words = [random_walk(dictograms) for i in range(int(sys.argv[2]))]
+    random_words = []
+    for i in range(int(sys.argv[2])//2):
+        walk = random_walk(dictograms)
+        random_words.append(walk[0])
+        random_words.append(walk[1])
 
     # print some test results
     print(random_words)

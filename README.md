@@ -1,8 +1,11 @@
-# tweet-generator
+# :bird: tweet-generator :speech_balloon:
 A tweet generator in python
 
-## Setup
-- Requirements: Python >= 3.5 `python3 -V` and [MongoDB](https://www.mongodb.com/download-center).
+## Live Demo 🤔
+[Here](https://tweet-generator-ec.herokuapp.com/)
+
+## :wrench: Setup
+- Requirements: Python >= 3.5 `python3 -V`
 - Install dependencies on a virtualenv `python3 -m pip install --user virtualenv`:
 
 ```sh
@@ -11,7 +14,7 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
-## Start Server
+## :rocket: Start Server
 ```sh
 bash start.sh
 ```

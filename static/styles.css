@@ -1,3 +1,33 @@
+body {
+  background-image:
+	repeating-linear-gradient(
+		90deg,
+		firebrick,
+		firebrick 20px,
+		beige 0,
+		beige 25px,
+		forestgreen 0,
+		forestgreen 35px,
+		gold 0,
+		gold 40px,
+		crimson 0,
+		crimson 60px
+	),
+	repeating-linear-gradient(
+		firebrick,
+		firebrick 20px,
+		beige 0,
+		beige 25px,
+		forestgreen 0,
+		forestgreen 35px,
+		gold 0,
+		gold 40px,
+		crimson 0,
+		crimson 60px
+	);
+background-blend-mode: multiply;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -53,34 +83,4 @@
 		font-size: 25px;
 		height: 50vh;
 	}
-}
-
-body {
-  background-image:
-	repeating-linear-gradient(
-		90deg,
-		firebrick,
-		firebrick 20px,
-		beige 0,
-		beige 25px,
-		forestgreen 0,
-		forestgreen 35px,
-		gold 0,
-		gold 40px,
-		crimson 0,
-		crimson 60px
-	),
-	repeating-linear-gradient(
-		firebrick,
-		firebrick 20px,
-		beige 0,
-		beige 25px,
-		forestgreen 0,
-		forestgreen 35px,
-		gold 0,
-		gold 40px,
-		crimson 0,
-		crimson 60px
-	);
-background-blend-mode: multiply;
 }

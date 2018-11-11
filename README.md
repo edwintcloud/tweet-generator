@@ -2,7 +2,7 @@
 A tweet generator in python
 
 ## Live Demo 🤔
-[Here](https://tweet-generator-ec.herokuapp.com/)
+[Here](https://tweet-generator-ec.now.sh/) and [here](https://tweet-generator-ec.herokuapp.com/)
 
 ## :wrench: Setup
 - Requirements: Python >= 3.5 `python3 -V`

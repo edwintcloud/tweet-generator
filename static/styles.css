@@ -83,4 +83,8 @@ background-blend-mode: multiply;
 		font-size: 25px;
 		height: 50vh;
 	}
+	body {
+		background-image: none;
+		background-color: firebrick;
+	}
 }

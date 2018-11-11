@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "alias": ["tweet-generator-ec.now.sh"],
+  "builds": [
+      { "src": "app.py", "use": "@now/python" },
+      { "src": "*.html", "use": "@now/static" },
+      { "src": "*.css", "use": "@now/static" },
+      { "src": "*.js", "use": "@now/static" },
+      { "src": "*.ico", "use": "@now/static" }
+  ]
+}

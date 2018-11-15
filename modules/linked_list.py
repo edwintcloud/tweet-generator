@@ -66,16 +66,22 @@ class LinkedList(object):
         node = Node(item)
         if self.head is None:
             self.head = node
+            self.tail = node
             return
         last = self.head
         while(last.next):
             last = last.next
         last.next = node
+        self.tail = node
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list.
         TODO: Running time: O(???) Why and under what conditions?"""
         node = Node(item)
+        if self.head is None:
+            self.head = node
+            self.tail = node
+            return
         node.next = self.head
         self.head = node
 
@@ -85,12 +91,12 @@ class LinkedList(object):
         TODO: Worst case running time: O(???) Why and under what conditions?"""
         curNode = self.head
         while curNode is not None:
-            if(curNode.data == quality.data):
-                return curNode
+            if(quality(curNode.data)):
+                return curNode.data
             curNode = curNode.next
         return None
 
-    def delete(self, item):
+    def delete(self, item): 
         """Delete the given item from this linked list, or raise ValueError.
         TODO: Best case running time: O(???) Why and under what conditions?
         TODO: Worst case running time: O(???) Why and under what conditions?"""
@@ -98,23 +104,31 @@ class LinkedList(object):
         # TODO: Update previous node to skip around node with matching data
         # TODO: Otherwise raise error to tell user that delete has failed
         # Hint: raise ValueError('Item not found: {}'.format(item))
-        
-        if self.find(Node(item)) is None:
+        item_exists = self.find(lambda item_: item_ == item) == item
+
+        if item_exists is False:
             raise ValueError('Item not found: {}'.format(item))
-        curNode = self.head
-        previousNode = Node(None)
-        if(curNode is not None):
-            if(curNode.data == item):
-                self.head = curNode.next
-                curNode = None
-                return
-        while curNode is not None:
-            if(curNode.data == item):
-                break
-            previousNode = curNode
-            curNode = curNode.next
-        previousNode.next = curNode.next
-        curNode = None
+        
+        node = self.head
+        prev_node = None
+
+        while node.data is not item:
+            prev_node = node
+            node = node.next
+        if node is self.head:
+            self.head = node.next
+            if self.length() is 0:
+                self.head = None
+                self.tail = None
+            return
+        if node is self.tail:
+            self.tail = prev_node
+            self.tail.next = None
+            if self.length() is 0:
+                self.head = None
+                self.tail = None
+            return
+        prev_node.next = node.next
 
 
 def test_linked_list():

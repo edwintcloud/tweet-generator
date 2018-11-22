@@ -19,6 +19,7 @@ class LinkedList(object):
         """Initialize this linked list and append the given items, if any."""
         self.head = None  # First node
         self.tail = None  # Last node
+        self.size = 0 # length of linked list
         # Append given items
         if items is not None:
             for item in items:
@@ -55,35 +56,31 @@ class LinkedList(object):
     def length(self):
         """Return the length of this linked list by traversing its nodes.
         TODO: Running time: O(???) Why and under what conditions?"""
-        count = 0
-        for _ in self.items():
-            count += 1
-        return count
+        return self.size
 
     def append(self, item):
         """Insert the given item at the tail of this linked list.
         TODO: Running time: O(???) Why and under what conditions?"""
         node = Node(item)
-        if self.head is None:
+        if self.is_empty():
             self.head = node
             self.tail = node
-            return
-        last = self.head
-        while(last.next):
-            last = last.next
-        last.next = node
-        self.tail = node
+        else:
+            self.tail.next = node
+            self.tail = node
+        self.size += 1
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list.
         TODO: Running time: O(???) Why and under what conditions?"""
         node = Node(item)
-        if self.head is None:
+        if self.is_empty():
             self.head = node
             self.tail = node
-            return
-        node.next = self.head
-        self.head = node
+        else:
+            node.next = self.head
+            self.head = node
+        self.size += 1
 
     def find(self, quality):
         """Return an item from this linked list satisfying the given quality.
@@ -111,7 +108,7 @@ class LinkedList(object):
         
         node = self.head
         prev_node = None
-
+        self.size -= 1
         while node.data is not item:
             prev_node = node
             node = node.next

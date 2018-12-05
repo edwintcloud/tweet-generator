@@ -50,17 +50,18 @@ class LinkedList(object):
         return items  # O(1) time to return list
 
     def is_empty(self):
-        """Return a boolean indicating whether this linked list is empty."""
+        """Return a boolean indicating whether this linked list is empty.
+        Running time: O(1)"""
         return self.head is None
 
     def length(self):
         """Return the length of this linked list by traversing its nodes.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        TODO: Running time: O(1) Will always execute in same time"""
         return self.size
 
     def append(self, item):
         """Insert the given item at the tail of this linked list.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        TODO: Running time: O(1) Will always execute in same time"""
         node = Node(item)
         if self.is_empty():
             self.head = node
@@ -72,7 +73,7 @@ class LinkedList(object):
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        TODO: Running time: O(1) Will always execute in same time"""
         node = Node(item)
         if self.is_empty():
             self.head = node
@@ -84,8 +85,8 @@ class LinkedList(object):
 
     def find(self, quality):
         """Return an item from this linked list satisfying the given quality.
-        TODO: Best case running time: O(???) Why and under what conditions?
-        TODO: Worst case running time: O(???) Why and under what conditions?"""
+        TODO: Best case running time: O(1) If curNode is None, same time execution
+        TODO: Worst case running time: O(n) If curNode is not None, exponential run time execution"""
         curNode = self.head
         while curNode is not None:
             if(quality(curNode.data)):
@@ -95,8 +96,8 @@ class LinkedList(object):
 
     def delete(self, item): 
         """Delete the given item from this linked list, or raise ValueError.
-        TODO: Best case running time: O(???) Why and under what conditions?
-        TODO: Worst case running time: O(???) Why and under what conditions?"""
+        TODO: Best case running time: O(1) If node.data is item and find method returns on first iteration
+        TODO: Worst case running time: O(n) Real time O(2n) find method is an exponential operation and so is while loop"""
         # TODO: Loop through all nodes to find one whose data matches given item
         # TODO: Update previous node to skip around node with matching data
         # TODO: Otherwise raise error to tell user that delete has failed

@@ -5,7 +5,7 @@ from modules.cleanup import clean
 from modules.dictogram import Dictogram
 from modules.sample import get_random_word
 from modules.sentence import generate_sentence
-from modules.markov import generate_dictograms, random_walk
+from modules.markov2 import generate_dictograms, random_walk
 from random import randint
 
 
@@ -20,17 +20,16 @@ def random_sentence(corpus, min_num_of_words=12, max_num_of_words=18):
     sentence = generate_sentence(random_weighted_words)
     return sentence
 
-def random_markov_sentence(corpus, min_num_of_walks=6, max_num_of_walks=9):
+def random_markov_sentence(corpus, min_num_of_walks=3, max_num_of_walks=5):
     num_of_walks = randint(min_num_of_walks, max_num_of_walks)
     words = get_words(corpus)
     cleaned_words = clean(words)
     dictograms = generate_dictograms(cleaned_words)
     random_words = []
-    for i in range(num_of_walks):
+    for _ in range(num_of_walks):
         walk = random_walk(dictograms)
         random_words.append(walk[0])
         random_words.append(walk[1])
-    random_words.pop()
     sentence = generate_sentence(random_words)
     return sentence
 

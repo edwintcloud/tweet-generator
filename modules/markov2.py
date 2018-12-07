@@ -3,8 +3,8 @@
 from modules.dictogram import Dictogram
 
 
-def generate_dictograms(words, nth=2):
-    '''Takes a list of words and generates a dictionary of dictograms of each word directly following each word'''
+def generate_dictograms(words, nth=4):
+    '''Takes a list of words and generates a dictionary of dictograms of each word directly following each tuple of words nth length'''
 
     # create a dictionary to hold our dictograms
     dictograms = {}
@@ -14,16 +14,17 @@ def generate_dictograms(words, nth=2):
 
         # build tuple for key
         key = tuple(words[index+i] for i in range(nth))
-        
+
         # check if the word is not in dictionary of word histograms already
         if key not in dictograms:
             # create new dictogram for the word in dictionary of dictograms
             dictograms[key] = Dictogram()
         # add count of word following word to dictogram
         dictograms[key].add_count(words[index+nth])
-    
+
     # return dictograms dictionary
     return dictograms
+
 
 def random_walk(dict_of_dictograms):
     '''Takes a dictionary of dictograms and returns a random weighted traversal along the markov chain'''
@@ -39,8 +40,12 @@ def random_walk(dict_of_dictograms):
     # now pick a random weighted word
     random_weighted_word = get_random_word(dictogram)
 
+    # words
+    words = list(key)
+    words.append(random_weighted_word)
+
     # return the words
-    return [key[0], key[1], random_weighted_word]
+    return words
 
 
 if __name__ == '__main__':

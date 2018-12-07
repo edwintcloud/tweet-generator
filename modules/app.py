@@ -20,7 +20,7 @@ def random_sentence(corpus, min_num_of_words=12, max_num_of_words=18):
     sentence = generate_sentence(random_weighted_words)
     return sentence
 
-def random_markov_sentence(corpus, min_num_of_walks=4, max_num_of_walks=6):
+def random_markov_sentence(corpus, min_num_of_walks=3, max_num_of_walks=4):
     num_of_walks = randint(min_num_of_walks, max_num_of_walks)
     words = get_words(corpus)
     cleaned_words = clean(words)
@@ -28,8 +28,7 @@ def random_markov_sentence(corpus, min_num_of_walks=4, max_num_of_walks=6):
     random_words = []
     for _ in range(num_of_walks):
         walk = random_walk(dictograms)
-        random_words.append(walk[0])
-        random_words.append(walk[1])
+        random_words.extend(walk)
     sentence = generate_sentence(random_words)
     return sentence
 
